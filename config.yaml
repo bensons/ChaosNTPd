@@ -1,0 +1,33 @@
+# ChaosNTPd Test Configuration
+
+server:
+  host: "127.0.0.1"
+  port: 10123  # Non-privileged port for testing
+  name: "ChaosNTPd"
+
+ntp:
+  stratum: 1
+  reference_id: "CHAO"
+  precision: -20
+
+time_manipulation:
+  initial_offset_minutes: 30
+  jitter_seconds: 5
+  distribution: "uniform"
+
+  client_tracking:
+    cleanup_interval_seconds: 300
+    max_client_age_seconds: 3600
+    max_tracked_clients: 10000
+
+logging:
+  level: "INFO"
+  format: "text"
+  output: "stdout"
+  log_transactions: true
+
+security:
+  allow_list: []
+  rate_limit:
+    enabled: false
+    max_requests_per_minute: 60

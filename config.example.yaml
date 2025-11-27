@@ -1,0 +1,46 @@
+# ChaosNTPd Configuration File
+# Copy to config.yaml and customize as needed
+
+server:
+  host: "0.0.0.0"
+  port: 123
+  name: "ChaosNTPd"
+
+ntp:
+  stratum: 1  # Default: stratum 1 (primary reference - maximum trust/chaos)
+              # Options: 0 (unspecified), 1 (primary), 2-15 (secondary), 16 (unsync)
+  reference_id: "CHAO"  # ChaosNTPd identifier (4 bytes)
+  precision: -20  # ~1 microsecond
+
+time_manipulation:
+  # N: Initial offset range for first client request (in minutes)
+  initial_offset_minutes: 30  # Default: ±30 minutes
+
+  # X: Subsequent jitter for ongoing requests (in seconds)
+  jitter_seconds: 5  # Default: ±5 seconds
+
+  # Distribution type for randomization
+  distribution: "uniform"  # Options: uniform, normal, exponential
+
+  # Client state management
+  client_tracking:
+    cleanup_interval_seconds: 300  # How often to clean up stale clients
+    max_client_age_seconds: 3600   # Remove clients not seen for 1 hour
+    max_tracked_clients: 10000     # Memory protection limit
+
+logging:
+  level: "INFO"  # DEBUG | INFO | WARNING | ERROR
+  format: "json"  # json | text
+  output: "stdout"  # stdout | file
+  log_transactions: true
+
+security:
+  # IP-based access control (empty list = allow all)
+  allow_list: []
+    # - "192.168.0.0/16"
+    # - "10.0.0.0/8"
+
+  # Rate limiting per client
+  rate_limit:
+    enabled: false
+    max_requests_per_minute: 60
