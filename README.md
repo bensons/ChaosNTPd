@@ -1,6 +1,6 @@
 # ChaosNTPd - Adversarial NTP Daemon
 
-**Version 1.0 - Prototype**
+**Version 1.0**
 
 ChaosNTPd is an experimental NTP server that intentionally distributes inaccurate time information for testing and chaos engineering purposes.
 
@@ -277,15 +277,7 @@ go run monitor_client.go -interval 64 -requests 100
 - **Monitoring Testing**: Validate drift detection systems
 - **Chaos Engineering**: Introduce controlled time chaos
 - **Educational**: Demonstrate importance of time synchronization
-
-## Future Enhancements
-
-See DESIGN.md for planned features:
-- Rate limiting and IP allowlisting
-- Prometheus metrics endpoint
-- RESTful API for runtime configuration
-- Per-client N/X/stratum values
-- Web dashboard
+- **Practical Jokes**: Some people have no sense of humor
 
 ## Building for Production
 
@@ -303,8 +295,9 @@ GOOS=windows GOARCH=amd64 go build -o chaosntpd-windows-amd64.exe
 ## License
 
 This is experimental software for testing purposes only. Use at your own risk.
+If you wan to use it in production, you're doing it wrong.
+But if you do want to use it, in any environment, it's MIT licensed.
 
 ## Contributing
 
-See DESIGN.md for architecture details and contribution guidelines.
-
+Just submit a PR.
