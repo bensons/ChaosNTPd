@@ -34,7 +34,7 @@ builds:
 
   # Test client
   - id: test_client
-    main: ./test_client.go
+    main: ./cmd/test_client
     binary: test_client
     env:
       - CGO_ENABLED=0
@@ -53,7 +53,7 @@ builds:
 
   # Monitor client
   - id: monitor_client
-    main: ./monitor_client.go
+    main: ./cmd/monitor_client
     binary: monitor_client
     env:
       - CGO_ENABLED=0

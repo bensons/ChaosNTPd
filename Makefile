@@ -13,9 +13,6 @@ GOCLEAN=$(GOCMD) clean
 # Build directories
 BUILD_DIR=build
 
-# Main daemon source files (exclude client files)
-DAEMON_SOURCES=main.go config.go ntp.go tracker.go server.go logger.go
-
 .PHONY: all build daemon test-client monitor-client clean deps
 
 all: build
@@ -23,13 +20,13 @@ all: build
 build: daemon test-client monitor-client
 
 daemon:
-	$(GOBUILD) -o $(BINARY_NAME) $(DAEMON_SOURCES)
+	$(GOBUILD) -o $(BINARY_NAME) .
 
 test-client:
-	$(GOBUILD) -o $(TEST_CLIENT) test_client.go
+	$(GOBUILD) -o $(TEST_CLIENT) ./cmd/test_client
 
 monitor-client:
-	$(GOBUILD) -o $(MONITOR_CLIENT) monitor_client.go
+	$(GOBUILD) -o $(MONITOR_CLIENT) ./cmd/monitor_client
 
 deps:
 	$(GOMOD) download
@@ -42,10 +39,10 @@ clean:
 .PHONY: build-linux build-darwin build-windows
 
 build-linux:
-	GOOS=linux GOARCH=amd64 $(GOBUILD) -o $(BINARY_NAME)-linux-amd64 $(DAEMON_SOURCES)
+	GOOS=linux GOARCH=amd64 $(GOBUILD) -o $(BINARY_NAME)-linux-amd64 .
 
 build-darwin:
-	GOOS=darwin GOARCH=arm64 $(GOBUILD) -o $(BINARY_NAME)-darwin-arm64 $(DAEMON_SOURCES)
+	GOOS=darwin GOARCH=arm64 $(GOBUILD) -o $(BINARY_NAME)-darwin-arm64 .
 
 build-windows:
-	GOOS=windows GOARCH=amd64 $(GOBUILD) -o $(BINARY_NAME)-windows-amd64.exe $(DAEMON_SOURCES)
+	GOOS=windows GOARCH=amd64 $(GOBUILD) -o $(BINARY_NAME)-windows-amd64.exe .

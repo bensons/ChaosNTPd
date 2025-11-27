@@ -12,7 +12,7 @@ def analyze_csv(filename):
     """Analyze the monitoring CSV file."""
 
     print("╔════════════════════════════════════════════════════════════════╗")
-    print("║          ChaosNTPd Monitoring Results Analysis                ║")
+    print("║          ChaosNTPd Monitoring Results Analysis                 ║")
     print("╚════════════════════════════════════════════════════════════════╝")
     print()
 
@@ -79,7 +79,7 @@ def analyze_csv(filename):
         print("═══════════════════════════════════════════════════════════════")
         print(f"{'Req':>4} {'Elapsed':>10} {'Offset':>12} {'Change':>10} {'Jitter':>10}")
         print(f"{'#':>4} {'(sec)':>10} {'(sec)':>12} {'(sec)':>10} {'(sec)':>10}")
-        print("─────────────────────────────────────────────────────────────────")
+        print("───────────────────────────────────────────────────────────────")
 
         prev_offset = None
         for i, row in enumerate(rows, 1):
