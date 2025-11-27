@@ -1,0 +1,16 @@
+# AI coding tools
+.claude/
+.cursor/
+.aider*
+.codeium/
+.continue/
+.copilot/
+.github/copilot/
+.tabnine/
+.windsurf/
+.cody/
+.sourcegraph/
+.codegen/
+.amazonq/
+.aws/amazonq/
+.supermaven/
