@@ -125,7 +125,7 @@ This creates the illusion of a clock that:
 ```
 ╔════════════════════════════════════════════════════════════════╗
 ║                        ChaosNTPd v1.0                          ║
-║           Adversarial NTP Daemon for Testing                  ║
+║           Adversarial NTP Daemon for Testing                   ║
 ╚════════════════════════════════════════════════════════════════╝
 
 ⚠️  WARNING: This server distributes INACCURATE time information!
@@ -181,23 +181,23 @@ Starting server...
 ┌──────────────────────────────────┐
 │      ChaosNTPd (Go)              │
 │                                  │
-│  ┌────────────────────────────┐ │
-│  │ NTP Packet Parser          │ │
-│  │ (ntp.go)                   │ │
-│  └───────────┬────────────────┘ │
+│  ┌────────────────────────────┐  │
+│  │ NTP Packet Parser          │  │
+│  │ (ntp.go)                   │  │
+│  └───────────┬────────────────┘  │
 │              ▼                   │
-│  ┌────────────────────────────┐ │
-│  │ Client Time Tracker        │ │
-│  │ (tracker.go)               │ │
-│  │ - Track N clients          │ │
-│  │ - Initial offset ±N min    │ │
-│  │ - Jitter ±X sec            │ │
-│  └───────────┬────────────────┘ │
+│  ┌────────────────────────────┐  │
+│  │ Client Time Tracker        │  │
+│  │ (tracker.go)               │  │
+│  │ - Track N clients          │  │
+│  │ - Initial offset ±N min    │  │
+│  │ - Jitter ±X sec            │  │
+│  └───────────┬────────────────┘  │
 │              ▼                   │
-│  ┌────────────────────────────┐ │
-│  │ Response Generator         │ │
-│  │ (server.go)                │ │
-│  └────────────────────────────┘ │
+│  ┌────────────────────────────┐  │
+│  │ Response Generator         │  │
+│  │ (server.go)                │  │
+│  └────────────────────────────┘  │
 └──────────────────────────────────┘
 ```
 
@@ -226,6 +226,49 @@ Starting server...
 - No authentication implemented
 - Rate limiting not yet implemented
 - IP allowlisting not yet implemented
+
+## Monitoring Client
+
+A Go-based monitoring tool (`monitor_client.go`) for testing ChaosNTPd behavior:
+
+```bash
+# Basic usage (64s interval, 20 requests)
+go run monitor_client.go
+
+# Custom monitoring
+go run monitor_client.go -server 127.0.0.1:123 -interval 30 -requests 50 -output test.csv
+```
+
+Features:
+- Configurable polling intervals and request counts
+- CSV output with timestamps, offsets, stratum, and round-trip times
+- Real-time display of offset and jitter statistics
+- Python analysis script (`analyze_results.py`) for statistical insights
+
+## Testing
+
+Common test scenarios:
+
+```bash
+# Basic functionality (moderate settings)
+./chaosntpd -N 5 -X 2 -p 10123 &
+go run monitor_client.go -server 127.0.0.1:10123 -interval 5 -requests 10
+python3 analyze_results.py ntp_monitor.csv
+
+# High jitter test
+./chaosntpd -N 10 -X 5 -p 10123 &
+go run monitor_client.go -server 127.0.0.1:10123 -interval 3 -requests 30
+
+# Realistic NTP simulation (long-term)
+./chaosntpd -N 30 -X 5 &
+go run monitor_client.go -interval 64 -requests 100
+```
+
+**Verification checklist**:
+- Initial offset within ±N minutes
+- Jitter within ±X seconds
+- Stratum matches configured value
+- Reference ID shows "CHAO"
 
 ## Use Cases
 
@@ -265,6 +308,3 @@ This is experimental software for testing purposes only. Use at your own risk.
 
 See DESIGN.md for architecture details and contribution guidelines.
 
----
-
-**ChaosNTPd v1.0** - Because sometimes you need a little time chaos in your life 🕐💥
